@@ -1,0 +1,37 @@
+{
+  "name": "hw6-backend-zac-y",
+  "version": "1.0.0",
+  "description": "",
+  "main": "simple.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node ./src/index.js",
+    "start:dev": "nodemon ./src/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RiceWebDevCourse/hw6-backend-Zac-Y.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/RiceWebDevCourse/hw6-backend-Zac-Y/issues"
+  },
+  "homepage": "https://github.com/RiceWebDevCourse/hw6-backend-Zac-Y#readme",
+  "dependencies": {
+    "basic-auth": "^2.0.1",
+    "body-parser": "^1.20.1",
+    "cookie-parser": "^1.4.6",
+    "es6-promise": "^4.2.8",
+    "express": "^4.18.2",
+    "express-session": "^1.17.3",
+    "isomorphic-fetch": "^3.0.0",
+    "jasmine-node": "^3.0.0",
+    "md5": "^2.3.0",
+    "mongoose": "^6.7.2",
+    "nodemon": "^2.0.20",
+    "passport": "^0.6.0",
+    "passport-google-oauth": "^2.0.0"
+  }
+}

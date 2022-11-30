@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites>
+<testsuite name="Validate headline functionality" errors="0" tests="3" failures="0" time="0.28" timestamp="2022-11-17T20:10:49">
+  <testcase classname="Validate headline functionality" name="get the headline for a user" time="0.092"></testcase>
+  <testcase classname="Validate headline functionality" name="update the headline for the logged in user" time="0.096"></testcase>
+  <testcase classname="Validate headline functionality" name="update the headline for the logged in user" time="0.092"></testcase>
+</testsuite>
+</testsuites>
