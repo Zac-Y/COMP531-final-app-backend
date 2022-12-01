@@ -39,29 +39,44 @@ function register(req, res) {
     return res.sendStatus(400);
   }
 
-  let salt = username + new Date().getTime();
-  let hash = md5(salt + password);
+  Profile.find({ username: username }, function (err, profiles) {
+    if (err) {
+      console.log(err);
+      return res.sendStatus(500);
+    }
 
-  const newUser = new User({
-    username: username,
-    salt: salt,
-    hash: hash,
+    let profileDB = profiles[0];
+    if (profileDB) {
+      // username has been registered
+      let msg = { username: username, result: "failure" };
+      res.send(msg);
+      // return res.status(500).send("The username has been registered");
+    } else {
+      let salt = username + new Date().getTime();
+      let hash = md5(salt + password);
+
+      const newUser = new User({
+        username: username,
+        salt: salt,
+        hash: hash,
+      });
+      newUser.save();
+
+      const newProfile = new Profile({
+        username: username,
+        headline: "Happy",
+        email: email,
+        zipcode: zipcode,
+        dob: dob,
+        avatar: "https://picsum.photos/300/200",
+        following: [],
+      });
+      newProfile.save();
+
+      let msg = { username: username, result: "success" };
+      res.send(msg);
+    }
   });
-  newUser.save();
-
-  const newProfile = new Profile({
-    username: username,
-    headline: "Happy",
-    email: email,
-    zipcode: zipcode,
-    dob: dob,
-    avatar: "https://picsum.photos/300/200",
-    following: []
-  });
-  newProfile.save();
-
-  let msg = { username: username, result: "success" };
-  res.send(msg);
 }
 
 //9524b8e04a985b787dd763aec2b4f907
@@ -80,21 +95,26 @@ function login(req, res) {
     }
 
     let userDB = user[0];
+    // console.log(!userDB)
     if (!userDB) {
-      return res.status(404).send("The user is not registered");
-    }
-
-    let currHash = md5(userDB.salt + password); // generate hash from input password
-    if (currHash === userDB.hash) {
-      let sid = md5(username);
-      sessionUser[sid] = username;
-
-      // Adding cookie for session id
-      res.cookie(cookieKey, sid, { maxAge: 3600 * 1000, httpOnly: true });
-      let msg = { username: username, result: "success" };
+      // return res.status(404).send("The user is not registered");
+      let msg = { username: username, result: "failure-not-registered" };
       res.send(msg);
     } else {
-      return res.status(401).send("password is incorrect");
+      let currHash = md5(userDB.salt + password); // generate hash from input password
+      if (currHash === userDB.hash) {
+        let sid = md5(username);
+        sessionUser[sid] = username;
+
+        // Adding cookie for session id
+        res.cookie(cookieKey, sid, { maxAge: 3600 * 1000, httpOnly: true });
+        let msg = { username: username, result: "success" };
+        res.send(msg);
+      } else {
+        let msg = { username: username, result: "failure-password-incorrect" };
+        res.send(msg);
+        // return res.status(401).send("password is incorrect");
+      }
     }
   });
 }
